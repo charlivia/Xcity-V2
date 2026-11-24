@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0f">
+<title>XCITY 紳士聯盟｜支持正版比拼紳士積分，送日本機票與女優互動！</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; overflow-x: hidden; }
+  body {
+    background: #0a0a0f;
+    color: #e8e0d0;
+    font-family: "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.6;
+  }
+  a { text-decoration: none; color: inherit; }
+
+  /* HERO：完整使用原圖；倒數與 CTA 疊在原圖原本的位置 */
+  .hero {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    background: #0a0a0f url("assets/hero-bg.jpg") center center / 100% 100% no-repeat;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  /* 遮住原圖內的靜態倒數文字，保留原本玻璃質感 */
+  .countdown {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 72.25%;
+    transform: translateX(-50%);
+    width: 60.2%;
+    height: 8.05%;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 5px 2.5%;
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(28,25,31,.88), rgba(55,47,54,.82));
+    box-shadow: inset 0 1px 8px rgba(255,255,255,.22), 0 5px 18px rgba(0,0,0,.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .cd-unit {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    color: #fff;
+    line-height: 1.05;
+  }
+  .cd-num {
+    display: inline-block;
+    font-size: clamp(18px, 3vw, 42px);
+    font-weight: 800;
+    letter-spacing: .5px;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  .cd-label {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: clamp(9px, 1.25vw, 17px);
+    font-weight: 700;
+    letter-spacing: .5px;
+    vertical-align: 12%;
+  }
+  .cd-sep {
+    width: 1px;
+    height: 58%;
+    flex: 0 0 1px;
+    background: rgba(255,255,255,.78);
+    margin: 0 1.5%;
+  }
+
+  /* 覆蓋原圖上的靜態按鈕，位置與原圖一致 */
+  .cta {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    top: 82.05%;
+    transform: translateX(-50%);
+    width: 21.3%;
+    height: 7.8%;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,239,190,.9);
+    border-radius: 999px;
+    background: linear-gradient(180deg, #f8d17d 0%, #e8b64e 48%, #c9902f 100%);
+    color: #fff;
+    font-size: clamp(16px, 2.3vw, 32px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 5px rgba(94,55,0,.55);
+    box-shadow: 0 4px 18px rgba(0,0,0,.35), inset 0 1px 2px rgba(255,255,255,.65);
+    white-space: nowrap;
+    transition: filter .2s, transform .2s;
+  }
+  .cta:hover {
+    filter: brightness(1.08);
+    transform: translateX(-50%) translateY(-2px);
+  }
+
+  section.content-section {
+    padding: 80px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h2 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+  .sub { text-align: center; color: #c9a84c; margin-bottom: 40px; }
+
+  .prize-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .prize-card {
+    background: #141418;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #2a2a2e;
+  }
+  .prize-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: #141418;
+  }
+  .prize-card .info { padding: 16px; }
+  .prize-card h3 { font-size: 18px; margin-bottom: 4px; }
+  .prize-card p { font-size: 14px; color: #aaa; }
+
+  .points-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: #141418;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .points-table th, .points-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #2a2a2e;
+  }
+  .points-table th { background: #1c1c22; color: #c9a84c; }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 14px;
+    border-top: 1px solid #222;
+  }
+
+  /* 手機版保留整張 16:9 原圖，不把人物或原圖文字裁掉 */
+  @media (max-width: 768px) {
+    .hero {
+      aspect-ratio: 16 / 9;
+      background-size: 100% 100%;
+    }
+    .countdown {
+      top: 72.25%;
+      width: 60.2%;
+      height: 8.05%;
+      min-height: 0;
+      border-radius: 999px;
+      padding: 1px 1.5%;
+    }
+    .cd-num { font-size: clamp(9px, 2.55vw, 20px); }
+    .cd-label { font-size: clamp(5px, 1.05vw, 9px); margin-left: 2px; }
+    .cd-sep { height: 55%; margin: 0 1%; }
+    .cta {
+      top: 82.05%;
+      width: 21.3%;
+      height: 7.8%;
+      min-height: 0;
+      font-size: clamp(8px, 1.8vw, 15px);
+      letter-spacing: 1px;
+      border-width: 1px;
+    }
+    section.content-section { padding: 48px 16px; }
+    h2 { font-size: 25px; }
+    .prize-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .prize-card .info { padding: 12px; }
+    .prize-card h3 { font-size: 16px; }
+    .points-table th, .points-table td { padding: 11px 9px; font-size: 14px; }
+  }
+
+  @media (max-width: 380px) {
+    .countdown { border-radius: 999px; }
+    .prize-grid { gap: 10px; }
+    .prize-card h3 { font-size: 14px; }
+    .prize-card p { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero" aria-label="XCITY 紳士賽季主視覺">
+  <!-- 原圖已含 Logo 與主標，這裡只覆蓋動態倒數及可點擊按鈕 -->
+  <div class="countdown" id="countdown" aria-label="賽季結束倒數">
+    <div class="cd-unit"><span class="cd-num" id="days">--</span><span class="cd-label">DAYS</span></div>
+    <div class="cd-sep"></div>
+    <div class="cd-unit"><span class="cd-num" id="hours">--</span><span class="cd-label">HRS</span></div>
+    <div class="cd-sep"></div>
+    <div class="cd-unit"><span class="cd-num" id="mins">--</span><span class="cd-label">MIN</span></div>
+    <div class="cd-sep"></div>
+    <div class="cd-unit"><span class="cd-num" id="secs">--</span><span class="cd-label">SEC</span></div>
+  </div>
+
+  <!-- 將 href="#" 換成實際會員註冊網址 -->
+  <a href="#" class="cta" id="joinButton">立即加入會員</a>
+</header>
+
+<section class="content-section">
+  <h2>豐富會員獎品一覽</h2>
+  <p class="sub">點數越多，抽獎機會越高——這些大獎正在等你</p>
+  <div class="prize-grid">
+    <article class="prize-card">
+      <img src="assets/prize1.png" alt="女優一對一互動" loading="lazy">
+      <div class="info"><h3>女優一對一互動</h3><p>免費互動席位</p></div>
+    </article>
+    <article class="prize-card">
+      <img src="assets/prize2.png" alt="女優周邊商品" loading="lazy">
+      <div class="info"><h3>女優周邊商品</h3><p>限定周邊好禮</p></div>
+    </article>
+    <article class="prize-card">
+      <img src="assets/prize3.png" alt="女優貼身物品" loading="lazy">
+      <div class="info"><h3>女優貼身物品</h3><p>隨機私密戰利品</p></div>
+    </article>
+    <article class="prize-card">
+      <img src="assets/prize4.png" alt="專屬影片放送" loading="lazy">
+      <div class="info"><h3>專屬影片放送</h3><p>女優親錄祝賀影片 🔓 待解鎖</p></div>
+    </article>
+    <article class="prize-card">
+      <img src="assets/prize5.png" alt="拍片場景巡禮" loading="lazy">
+      <div class="info"><h3>拍片場景巡禮</h3><p>幕後獨家體驗 🔓 待解鎖</p></div>
+    </article>
+    <article class="prize-card">
+      <img src="assets/prize6.png" alt="日本來回機票" loading="lazy">
+      <div class="info"><h3>日本來回機票</h3><p>雙人機票大獎</p></div>
+    </article>
+  </div>
+</section>
+
+<section class="content-section">
+  <h2>會員點數怎麼賺？</h2>
+  <p class="sub">累積點數，抽獎機會全面提升</p>
+  <table class="points-table">
+    <tr><th>行動</th><th>可獲得點數</th></tr>
+    <tr><td>註冊並升級會員</td><td>500 點</td></tr>
+    <tr><td>成功續約</td><td>1,000 點</td></tr>
+    <tr><td>推薦好友加入（好友完成續約後發送）</td><td>3,000 點</td></tr>
+  </table>
+  <p style="text-align:center; margin-top:30px; color:#aaa;">將於賽季後一個月內結算積分並抽取獎項，積分越高抽取獎項機會與價值越高！</p>
+</section>
+
+<footer>
+  © XCITY · All Rights Reserved<br>
+  ＊本活動最終解釋權歸主辦方所有
+</footer>
+
+<script>
+  // 倒數至台灣時間 2026/12/31 23:59:59
+  const end = new Date('2026-12-31T23:59:59+08:00').getTime();
+  const el = {
+    days: document.getElementById('days'),
+    hours: document.getElementById('hours'),
+    mins: document.getElementById('mins'),
+    secs: document.getElementById('secs')
+  };
+  function updateCountdown() {
+    const diff = Math.max(0, end - Date.now());
+    el.days.textContent = Math.floor(diff / 86400000);
+    el.hours.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+    el.mins.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+    el.secs.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
